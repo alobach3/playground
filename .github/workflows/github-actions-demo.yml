@@ -1,6 +1,13 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is Testing GitHub Actions
 on: [push]
+
+
+concurrency:
+  group: test
+  cancel-in-progress: true
+
+  
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
