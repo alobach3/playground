@@ -19,8 +19,11 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4.2.2
+        
       - name: build
         uses: actions/setup-python@v5.6.0
+        with:
+          python-version: '3.11'
 
       - name: requirements
         run: pip install -r requirements.txt
@@ -33,5 +36,8 @@ jobs:
     
       
       - name: deploy
-        run: echo 'Deploying..'
-    
+        run: echo 'Deploying on ${{ github.events.inputs.env || 'dev' }}'
+      
+      - name: Deploy on main
+        if: github.ref == 'refs/heads/main'
+        run: echo "Deploying dev version..."
