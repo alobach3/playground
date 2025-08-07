@@ -1,0 +1,37 @@
+name: "Testing python app"
+on:
+  push:
+    branches: 
+      - dev
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Provide enviroment"
+        required: false
+        default: 'dev'
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4.2.2
+      - name: build
+        uses: actions/setup-python@v5.6.0
+
+      - name: requirements
+        run: pip install -r requirements.txt
+
+      - name: lint
+        run: flake8 app tests
+      
+      - name: test
+        run: pytest
+    
+      
+      - name: deploy
+        run: echo 'Deploying..'
+    
