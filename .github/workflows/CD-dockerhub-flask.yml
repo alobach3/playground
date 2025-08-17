@@ -32,30 +32,15 @@ jobs:
           annotations: ${{ steps.meta.outputs.annotations }}
           provenance: true
           sbom: true
-
-
-      - name: Start SSH agent and add key
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.VM_SSH_KEY }}
-
-      - name: Run deployment commands
-        run: |
-          ssh -o StrictHostKeyChecking=no miraculous@192.168.0.102 "
-            docker pull alobach3/flask-app:latest &&
-            docker stop flask-app || true &&
-            docker rm flask-app || true &&
-            docker run -d --name flask-app -p 80:5000 alobach3/flask-app:latest
-          "
+          
       #- name: Deploy over SSH
         #uses: appleboy/ssh-action@v0.1.9
         #with:
           #host: ${{ secrets.VM_HOST }}
           #username: ${{ secrets.VM_USER }}
           #key: ${{ secrets.VM_SSH_KEY }}
-          #known_hosts: ${{ secrets.KNOWN_HOSTS }}
           #script: |
             #docker stop flask-app || true
             #docker rm flask-app || true
-            #docker pull alobach3/flask-app:latest
-            #docker run -d --name flask-app -p 80:5000 alobach3/flask-app:latest
+            #docker pull alobach3/flask-app:main
+            #docker run -d --name flask-app -p 80:8000 alobach3/flask-app:main
